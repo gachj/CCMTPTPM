@@ -62,3 +62,6 @@ D:\Documents\Lap trinh Win\QuanLyBanHangDienTu\QuanLyBanHangDienTu\obj\Debug\Qua
 D:\Documents\Lap trinh Win\QuanLyBanHangDienTu\QuanLyBanHangDienTu\obj\Debug\QuanLyBanHangDienTu.csproj.GenerateResource.Cache
 D:\Documents\Lap trinh Win\QuanLyBanHangDienTu\QuanLyBanHangDienTu\obj\Debug\QuanLyBanHangDienTu.Presentation.fr_SplashScreen.resources
 D:\Documents\Lap trinh Win\QuanLyBanHangDienTu\QuanLyBanHangDienTu\obj\Debug\QuanLyBanHangDienTu.Presentation.fr_About.resources
+C:\Users\thanh\Desktop\CCMTPTPM\QuanLyBanHangDienTu\QuanLyBanHangDienTu\bin\Debug\QuanLyBanHangDienTu.exe.config
+C:\Users\thanh\Desktop\CCMTPTPM\QuanLyBanHangDienTu\QuanLyBanHangDienTu\obj\Debug\QuanLyBanHangDienTu.exe
+C:\Users\thanh\Desktop\CCMTPTPM\QuanLyBanHangDienTu\QuanLyBanHangDienTu\obj\Debug\QuanLyBanHangDienTu.pdb
