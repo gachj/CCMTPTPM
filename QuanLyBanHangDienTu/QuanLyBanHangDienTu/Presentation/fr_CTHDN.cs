@@ -89,5 +89,44 @@ namespace QuanLyBanHangDienTu.Presentation
             msds.Columns[5].HeaderText = "Thành Tiền";
             msds.Columns[5].Width = 80;
         }
+        public void hienthi()
+        {
+            string sql = "SELECT sohdn, mahang, soluong, dongia, giamgia, thanhtien FROM tb_CTHDN";
+            msds.DataSource = cn.taobang(sql);
+            SqlConnection con = cn.getcon();
+            con.Open();
+            try
+            {
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+        private void btmoi_Click(object sender, EventArgs e)
+        {
+            themmoi = true;
+            un_locktext();
+            setnull();
+            string sql = "SELECT sohdn, mahang, soluong, dongia, giamgia, thanhtien FROM tb_CTHDN where sohdn='" + sohdn + "'";
+            msds.DataSource = cn.taobang(sql);
+            SqlConnection con = cn.getcon();
+            con.Open();
+            try
+            {
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
     }
 }
