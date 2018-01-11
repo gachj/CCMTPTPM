@@ -128,5 +128,154 @@ namespace QuanLyBanHangDienTu.Presentation
                 con.Close();
             }
         }
+        private void btluu_Click(object sender, EventArgs e)
+        {
+            if (cbhang.Text != "")
+            {
+                if (themmoi == true)
+                {
+                    try
+                    {
+                        float tt = (float.Parse(txtsl.Text) * float.Parse(txtdg.Text)) - float.Parse(txtgg.Text);
+
+                        ck.SOHDN = cbhd.Text;
+                        ck.MAHANG = cbhang.Text;
+                        ck.SOLUONG = txtsl.Text;
+                        ck.DONGIA = txtdg.Text;
+                        ck.GIAMGIA = txtgg.Text;
+                        ck.THANHTIEN = tt.ToString();
+
+                        thucthi.themoicthdn(ck);
+                        locktext();
+                        hienthi();
+                        MessageBox.Show("Đã Lưu Thành Công", "Chú Ý", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString(), "Chú Ý", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else
+                    try
+                    {
+                        float tt = (float.Parse(txtsl.Text) * float.Parse(txtdg.Text)) - float.Parse(txtgg.Text);
+                        ck.SOHDN = cbhd.Text;
+                        ck.MAHANG = cbhang.Text;
+                        ck.SOLUONG = txtsl.Text;
+                        ck.DONGIA = txtdg.Text;
+                        ck.GIAMGIA = txtgg.Text;
+                        ck.THANHTIEN = tt.ToString();
+
+                        thucthi.suacthdn(ck);
+                        MessageBox.Show("Đã Sửa Thành Công Thành Công", "Chú Ý", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString(), "Chú Ý", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                float gn = float.Parse(txtdg.Text);
+                float gb = (gn * 110) / 100;
+
+                string upsl = "UPDATE tb_Hanghoa SET soluong =soluong + '" + txtsl.Text + "' where mahang='" + cbhang.Text + "'";
+                string upsl1 = "UPDATE tb_Hanghoa SET dongianhap ='" + txtdg.Text + "' where mahang ='" + cbhang.Text + "'";
+                string upsl2 = "UPDATE tb_Hanghoa SET dongiaban ='" + gb + "'where mahang='" + cbhang.Text + "'";
+                string uptt = "update tb_HDN set tongtien=(SELECT sum(thanhtien) FROM tb_CTHDN) where sohdn='" + cbhd.Text + "'";
+                cn.ExcuteNonQuery(uptt);
+                cn.ExcuteNonQuery(upsl);
+                cn.ExcuteNonQuery(upsl1);
+                cn.ExcuteNonQuery(upsl2);
+                locktext();
+                hienthi();
+                float t1 = (float.Parse(txtsl.Text) * float.Parse(txtdg.Text)) - float.Parse(txtgg.Text);
+                txttt.Text = t1.ToString();
+            }
+            else
+            {
+                MessageBox.Show("Mã Không được để trống", "Chú Ý", MessageBoxButtons.OK);
+                cbhang.Focus();
+            }
+        }
+
+        private void btsua_Click(object sender, EventArgs e)
+        {
+            themmoi = false;
+            un_locktext();
+        }
+
+        private void btxoa_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Xóa dữ liệu này?", "Chú Ý", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                try
+                {
+                    ck.SOHDN = cbhd.Text;
+                    ck.MAHANG = cbhang.Text;
+
+                    thucthi.xoacthdn(ck);
+                    MessageBox.Show("Đã Xóa Thành Công", "Chú Ý", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    hienthi();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Lỗi");
+                }
+            }
+        }
+        private void msds_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            dong = e.RowIndex;
+            cbhd.Text = msds.Rows[dong].Cells[0].Value.ToString();
+            cbhang.Text = msds.Rows[dong].Cells[1].Value.ToString();
+            txtsl.Text = msds.Rows[dong].Cells[2].Value.ToString();
+            txtdg.Text = msds.Rows[dong].Cells[3].Value.ToString();
+            txtgg.Text = msds.Rows[dong].Cells[4].Value.ToString();
+            txttt.Text = msds.Rows[dong].Cells[5].Value.ToString();
+            locktext();
+        }
+
+        private void fr_CTHDN_Load(object sender, EventArgs e)
+        {
+            cbhd.Text = sohdn;
+            thucthi.loadmahd(cbhd);
+            thucthi.loadmasp(cbhang);
+            hienthi();
+            khoitaoluoi();
+            locktext();
+        }
+
+        private void btquaylai_Click(object sender, EventArgs e)
+        {
+            fr_HDN fr = new fr_HDN();
+            this.Close();
+            fr.Show();
+        }
+        private void cbhang_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lbhang.Text = thucthi.loadtensp(lbhang.Text, cbhang.Text);
+        }
+
+        private void txtsl_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsDigit(e.KeyChar) && !Char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtgg_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsDigit(e.KeyChar) && !Char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtdg_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsDigit(e.KeyChar) && !Char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }
