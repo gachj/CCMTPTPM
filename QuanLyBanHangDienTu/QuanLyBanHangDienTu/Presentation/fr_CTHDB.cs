@@ -12,33 +12,33 @@ using QuanLyBanHangDienTu.Business.EntitiesClass;
 using QuanLyBanHangDienTu.DataAccess;
 using COMExcel = Microsoft.Office.Interop.Excel;
 
-
 namespace QuanLyBanHangDienTu.Presentation
 {
-    public partial class fr_CTHDN : Form
+    public partial class fr_CTHDB : Form
     {
-        public fr_CTHDN()
+        public fr_CTHDB()
         {
             InitializeComponent();
         }
-        E_tb_CTHDN thucthi = new E_tb_CTHDN();
+        E_tb_CTHDB thucthi = new E_tb_CTHDB();
         ConnectDB cn = new ConnectDB();
-        EC_tb_CTHDN ck = new EC_tb_CTHDN();
+        EC_tb_CTHDB ck = new EC_tb_CTHDB();
         bool themmoi;
         int dong = 0;
 
-        private string sohdn;
-        public string SOHDN
+        private string sohdb;
+        public string SOHDB
         {
             get
             {
-                return sohdn;
+                return sohdb;
             }
             set
             {
-                sohdn = value;
+                sohdb = value;
             }
         }
+
         public void setnull()
         {
             txtsl.Text = "0";
@@ -50,7 +50,6 @@ namespace QuanLyBanHangDienTu.Presentation
         public void locktext()
         {
             txtsl.Enabled = false;
-            txtdg.Enabled = false;
             txtgg.Enabled = false;
             cbhang.Enabled = false;
 
@@ -62,7 +61,6 @@ namespace QuanLyBanHangDienTu.Presentation
         public void un_locktext()
         {
             txtsl.Enabled = true;
-            txtdg.Enabled = true;
             txtgg.Enabled = true;
             cbhang.Enabled = true;
 
@@ -74,7 +72,7 @@ namespace QuanLyBanHangDienTu.Presentation
         public void khoitaoluoi()
         {
             msds.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            msds.Columns[0].HeaderText = "Số HDN";
+            msds.Columns[0].HeaderText = "Số HDB";
             msds.Columns[0].Frozen = true;
             msds.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             msds.Columns[0].Width = 100;
@@ -82,16 +80,14 @@ namespace QuanLyBanHangDienTu.Presentation
             msds.Columns[1].Width = 100;
             msds.Columns[2].HeaderText = "Số Lượng";
             msds.Columns[2].Width = 80;
-            msds.Columns[3].HeaderText = "Đơn Giá";
+            msds.Columns[3].HeaderText = "Khuyến Mãi";
             msds.Columns[3].Width = 80;
-            msds.Columns[4].HeaderText = "Giảm Giá";
+            msds.Columns[4].HeaderText = "Thành Tiền";
             msds.Columns[4].Width = 80;
-            msds.Columns[5].HeaderText = "Thành Tiền";
-            msds.Columns[5].Width = 80;
         }
         public void hienthi()
         {
-            string sql = "SELECT sohdn, mahang, soluong, dongia, giamgia, thanhtien FROM tb_CTHDN";
+            string sql = "SELECT sohdb, mahang, soluong, giamgia, thanhtien FROM tb_CTHDB";
             msds.DataSource = cn.taobang(sql);
             SqlConnection con = cn.getcon();
             con.Open();
@@ -112,7 +108,7 @@ namespace QuanLyBanHangDienTu.Presentation
             themmoi = true;
             un_locktext();
             setnull();
-            string sql = "SELECT sohdn, mahang, soluong, dongia, giamgia, thanhtien FROM tb_CTHDN where sohdn='" + sohdn + "'";
+            string sql = "SELECT sohdb, mahang, soluong, giamgia, thanhtien FROM tb_CTHDB where sohdb='" + sohdb + "'";
             msds.DataSource = cn.taobang(sql);
             SqlConnection con = cn.getcon();
             con.Open();
@@ -128,6 +124,7 @@ namespace QuanLyBanHangDienTu.Presentation
                 con.Close();
             }
         }
+
         private void btluu_Click(object sender, EventArgs e)
         {
             if (cbhang.Text != "")
@@ -138,14 +135,19 @@ namespace QuanLyBanHangDienTu.Presentation
                     {
                         float tt = (float.Parse(txtsl.Text) * float.Parse(txtdg.Text)) - float.Parse(txtgg.Text);
 
-                        ck.SOHDN = cbhd.Text;
+                        ck.SOHDB = cbhd.Text;
                         ck.MAHANG = cbhang.Text;
-                        ck.SOLUONG = txtsl.Text;
-                        ck.DONGIA = txtdg.Text;
                         ck.GIAMGIA = txtgg.Text;
                         ck.THANHTIEN = tt.ToString();
+                        ck.SOLUONG = txtsl.Text;
+                        int n = 0;
+                        if (int.TryParse(txtsl.Text, out n))
+                        {
 
-                        thucthi.themoicthdn(ck);
+                        }
+                        else
+                            txtsl.Text = "";
+                        thucthi.themoicthdb(ck);
                         locktext();
                         hienthi();
                         MessageBox.Show("Đã Lưu Thành Công", "Chú Ý", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -159,14 +161,13 @@ namespace QuanLyBanHangDienTu.Presentation
                     try
                     {
                         float tt = (float.Parse(txtsl.Text) * float.Parse(txtdg.Text)) - float.Parse(txtgg.Text);
-                        ck.SOHDN = cbhd.Text;
+                        ck.SOHDB = cbhd.Text;
                         ck.MAHANG = cbhang.Text;
-                        ck.SOLUONG = txtsl.Text;
-                        ck.DONGIA = txtdg.Text;
                         ck.GIAMGIA = txtgg.Text;
                         ck.THANHTIEN = tt.ToString();
+                        ck.SOLUONG = txtsl.Text;
 
-                        thucthi.suacthdn(ck);
+                        thucthi.suacthdb(ck);
                         MessageBox.Show("Đã Sửa Thành Công Thành Công", "Chú Ý", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
@@ -176,14 +177,10 @@ namespace QuanLyBanHangDienTu.Presentation
                 float gn = float.Parse(txtdg.Text);
                 float gb = (gn * 110) / 100;
 
-                string upsl = "UPDATE tb_Hanghoa SET soluong =soluong + '" + txtsl.Text + "' where mahang='" + cbhang.Text + "'";
-                string upsl1 = "UPDATE tb_Hanghoa SET dongianhap ='" + txtdg.Text + "' where mahang ='" + cbhang.Text + "'";
-                string upsl2 = "UPDATE tb_Hanghoa SET dongiaban ='" + gb + "'where mahang='" + cbhang.Text + "'";
-                string uptt = "update tb_HDN set tongtien=(SELECT sum(thanhtien) FROM tb_CTHDN) where sohdn='" + cbhd.Text + "'";
+                string upsl = "UPDATE tb_Hanghoa SET soluong =soluong - '" + txtsl.Text + "' where mahang='" + cbhang.Text + "'";
+                string uptt = "update tb_HDB set tongtien=(SELECT sum(thanhtien) FROM tb_CTHDB)where sohdb='" + cbhd.Text + "'";
                 cn.ExcuteNonQuery(uptt);
                 cn.ExcuteNonQuery(upsl);
-                cn.ExcuteNonQuery(upsl1);
-                cn.ExcuteNonQuery(upsl2);
                 locktext();
                 hienthi();
                 float t1 = (float.Parse(txtsl.Text) * float.Parse(txtdg.Text)) - float.Parse(txtgg.Text);
@@ -208,10 +205,10 @@ namespace QuanLyBanHangDienTu.Presentation
             {
                 try
                 {
-                    ck.SOHDN = cbhd.Text;
+                    ck.SOHDB = cbhd.Text;
                     ck.MAHANG = cbhang.Text;
 
-                    thucthi.xoacthdn(ck);
+                    thucthi.xoacthdb(ck);
                     MessageBox.Show("Đã Xóa Thành Công", "Chú Ý", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     hienthi();
                 }
@@ -227,16 +224,14 @@ namespace QuanLyBanHangDienTu.Presentation
             cbhd.Text = msds.Rows[dong].Cells[0].Value.ToString();
             cbhang.Text = msds.Rows[dong].Cells[1].Value.ToString();
             txtsl.Text = msds.Rows[dong].Cells[2].Value.ToString();
-            txtdg.Text = msds.Rows[dong].Cells[3].Value.ToString();
-            txtgg.Text = msds.Rows[dong].Cells[4].Value.ToString();
-            txttt.Text = msds.Rows[dong].Cells[5].Value.ToString();
+            txtgg.Text = msds.Rows[dong].Cells[3].Value.ToString();
+            txttt.Text = msds.Rows[dong].Cells[4].Value.ToString();
             locktext();
         }
 
-        private void fr_CTHDN_Load(object sender, EventArgs e)
+        private void fr_CTHDB_Load(object sender, EventArgs e)
         {
-            cbhd.Text = sohdn;
-            thucthi.loadmahd(cbhd);
+            cbhd.Text = sohdb;
             thucthi.loadmasp(cbhang);
             hienthi();
             khoitaoluoi();
@@ -245,13 +240,20 @@ namespace QuanLyBanHangDienTu.Presentation
 
         private void btquaylai_Click(object sender, EventArgs e)
         {
-            fr_HDN fr = new fr_HDN();
+            fr_HDB fr = new fr_HDB();
             this.Close();
             fr.Show();
         }
+
+        private void cbhd_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
         private void cbhang_SelectedIndexChanged(object sender, EventArgs e)
         {
             lbhang.Text = thucthi.loadtensp(lbhang.Text, cbhang.Text);
+            txtdg.Text = thucthi.loaddg(txttt.Text, cbhang.Text);
         }
 
         private void txtsl_KeyPress(object sender, KeyPressEventArgs e)
@@ -270,13 +272,6 @@ namespace QuanLyBanHangDienTu.Presentation
             }
         }
 
-        private void txtdg_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!Char.IsDigit(e.KeyChar) && !Char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
         private void button1_Click(object sender, EventArgs e)
         {
             // Khởi động chương trình Excel
@@ -303,19 +298,23 @@ namespace QuanLyBanHangDienTu.Presentation
             exRange.Range["A2:B2"].MergeCells = true;
             exRange.Range["A2:B2"].HorizontalAlignment = COMExcel.XlHAlign.xlHAlignCenter;
             exRange.Range["A2:B2"].Value = "";
+            exRange.Range["A3:B3"].MergeCells = true;
+            exRange.Range["A3:B3"].HorizontalAlignment = COMExcel.XlHAlign.xlHAlignCenter;
+            exRange.Range["A3:B3"].Value = "";
             exRange.Range["C2:E2"].Font.Size = 16;
             exRange.Range["C2:E2"].Font.Name = "Times new roman";
             exRange.Range["C2:E2"].Font.Bold = true;
             exRange.Range["C2:E2"].Font.ColorIndex = 3; //Màu đỏ
             exRange.Range["C2:E2"].MergeCells = true;
             exRange.Range["C2:E2"].HorizontalAlignment = COMExcel.XlHAlign.xlHAlignCenter;
-            exRange.Range["C2:E2"].Value = "HÓA ĐƠN NHẬP";
+            exRange.Range["C2:E2"].Value = "HÓA ĐƠN BÁN";
             // Biểu diễn thông tin chung của hóa đơn bán
-            sql = @"SELECT     tb_CTHDN.sohdn, tb_NCC.tenncc, tb_NCC.diachi, tb_NCC.dienthoai, tb_Nhanvien.tennv,tb_HDN.ngaynhap
-                        FROM         tb_HDN INNER JOIN
-                      tb_NCC ON tb_HDN.mancc = tb_NCC.mancc INNER JOIN
-                      tb_CTHDN ON tb_HDN.sohdn = tb_CTHDN.sohdn INNER JOIN
-                      tb_Nhanvien ON tb_HDN.manv = tb_Nhanvien.manv where tb_HDN.sohdn='" + cbhd.Text + "'";
+            sql = @"SELECT tb_HDB.sohdb,  tb_Khachhang.tenkh, tb_Khachhang.diachi,
+                      tb_Nhanvien.tennv,tb_HDB.ngayban
+                        FROM  tb_CTHDB INNER JOIN
+                      tb_HDB ON tb_CTHDB.sohdb = tb_HDB.sohdb INNER JOIN
+                      tb_Khachhang ON tb_HDB.makh = tb_Khachhang.makh INNER JOIN
+                      tb_Nhanvien ON tb_HDB.manv = tb_Nhanvien.manv where tb_HDB.sohdb='" + cbhd.Text + "'";
             tblThongtinHD = cn.taobang(sql);
             exRange.Range["B6:C9"].Font.Size = 12;
             exRange.Range["B6:C9"].Font.Name = "Times new roman";
@@ -332,10 +331,11 @@ namespace QuanLyBanHangDienTu.Presentation
             exRange.Range["C9:E9"].MergeCells = true;
             exRange.Range["C9:E9"].Value = tblThongtinHD.Rows[0][3].ToString();
             //Lấy thông tin các mặt hàng
-            sql = @"SELECT tb_HDN.mancc, tb_HDN.manv,tb_Hanghoa.tenhang , tb_CTHDN.soluong, tb_CTHDN.dongia, tb_CTHDN.giamgia, tb_CTHDN.thanhtien, tb_HDN.ngaynhap
-                FROM tb_HDN, tb_CTHDN INNER JOIN
-	                tb_Hanghoa ON tb_CTHDN.mahang = tb_Hanghoa.mahang
-                WHERE tb_HDN.sohdn = tb_CTHDN.sohdn and tb_CTHDN.sohdn='" + cbhd.Text + "'";
+            sql = @"SELECT tb_HDB.makh, tb_HDB.manv, tb_Hanghoa.tenhang, tb_CTHDB.soluong,tb_Hanghoa.dongiaban, tb_CTHDB.giamgia, tb_CTHDB.thanhtien, tb_HDB.ngayban
+                    FROM tb_HDB, tb_CTHDB
+	                INNER JOIN tb_Hanghoa
+	                ON tb_CTHDB.mahang = tb_Hanghoa.mahang
+	                WHERE tb_CTHDB.sohdb = tb_HDB.sohdb and tb_CTHDB.sohdb='" + cbhd.Text + "'";
             tblThongtinHang = cn.taobang(sql);
             //Tạo dòng tiêu đề bảng
             exRange.Range["A11:I11"].Font.Bold = true;
@@ -343,14 +343,14 @@ namespace QuanLyBanHangDienTu.Presentation
             exRange.Range["A11:H11"].ColumnWidth = 12;
             exRange.Range["I11:I11"].ColumnWidth = 20;
             exRange.Range["A11:A11"].Value = "STT";
-            exRange.Range["B11:B11"].Value = "Mã nhà cung cấp";
+            exRange.Range["B11:B11"].Value = "Mã khách hàng";
             exRange.Range["C11:C11"].Value = "Mã nhân viên";
             exRange.Range["D11:D11"].Value = "Tên hàng";
             exRange.Range["E11:E11"].Value = "Số lượng";
-            exRange.Range["F11:F11"].Value = "Đơn giá";
+            exRange.Range["F11:F11"].Value = "Đơn giá bán";
             exRange.Range["G11:G11"].Value = "Giảm giá";
             exRange.Range["H11:H11"].Value = "Thành tiền";
-            exRange.Range["I11:I11"].Value = "Ngày nhập";
+            exRange.Range["I11:I11"].Value = "Ngày bán";
             for (hang = 0; hang <= tblThongtinHang.Rows.Count - 1; hang++)
             {
                 //Điền số thứ tự vào cột 1 từ dòng 12
@@ -368,28 +368,18 @@ namespace QuanLyBanHangDienTu.Presentation
             exRange.Range["A1:C1"].MergeCells = true;
             exRange.Range["A1:C1"].Font.Italic = true;
             exRange.Range["A1:C1"].HorizontalAlignment = COMExcel.XlHAlign.xlHAlignCenter;
-            DateTime d = Convert.ToDateTime(tblThongtinHD.Rows[0][5]);
+            DateTime d = Convert.ToDateTime(tblThongtinHD.Rows[0][4]);
             exRange.Range["A1:C1"].Value = "BINHTHANH, ngày " + d.Day + " tháng " + d.Month + " năm " + d.Year;
             exRange.Range["A2:C2"].MergeCells = true;
             exRange.Range["A2:C2"].Font.Italic = true;
             exRange.Range["A2:C2"].HorizontalAlignment = COMExcel.XlHAlign.xlHAlignCenter;
-            exRange.Range["A2:C2"].Value = "Nhân viên Nhập hàng";
+            exRange.Range["A2:C2"].Value = "Nhân viên Bán hàng";
             exRange.Range["A6:C6"].MergeCells = true;
             exRange.Range["A6:C6"].Font.Italic = true;
             exRange.Range["A6:C6"].HorizontalAlignment = COMExcel.XlHAlign.xlHAlignCenter;
-            exRange.Range["A6:C6"].Value = tblThongtinHD.Rows[0][4];
-            exSheet.Name = "Hóa đơn Nhập";
+            exRange.Range["A6:C6"].Value = tblThongtinHD.Rows[0][3];
+            exSheet.Name = "Hóa đơn Bán";
             exApp.Visible = true;
-        }
-
-        private void cbhang_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-            lbhang.Text = thucthi.loadtensp(lbhang.Text, cbhang.Text);
-        }
-
-        private void msds_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
     }
 }

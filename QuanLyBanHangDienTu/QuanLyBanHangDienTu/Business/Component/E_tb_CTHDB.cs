@@ -8,42 +8,48 @@ using System.Windows.Forms;
 
 namespace QuanLyBanHangDienTu.Business.Component
 {
-    class E_tb_CTHDN
+    class E_tb_CTHDB
     {
-        SQL_tb_CTHDN cthdnsql = new SQL_tb_CTHDN();
-        public void themoicthdn(EC_tb_CTHDN cthdn)
+        SQL_tb_CTHDB cthdbsql = new SQL_tb_CTHDB();
+        public void themoicthdb(EC_tb_CTHDB cthdb)
         {
-            if (!cthdnsql.kiemtracthdn(cthdn.SOHDN, cthdn.MAHANG))
+            if (!cthdbsql.kiemtracthdb(cthdb.SOHDB, cthdb.MAHANG))
             {
-                cthdnsql.themmoicthdn(cthdn);
+                cthdbsql.themmoicthdb(cthdb);
             }
             else
             {
                 MessageBox.Show("Mã này đã tồn tại,xin chọn Mã khác", "Chú Ý", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-        public void suacthdn(EC_tb_CTHDN cthdn)
+        public void suacthdb(EC_tb_CTHDB cthdb)
         {
-            cthdnsql.suacthdn(cthdn);
+            cthdbsql.suacthdb(cthdb);
         }
-        public void xoacthdn(EC_tb_CTHDN cthdn)
+        public void xoacthdb(EC_tb_CTHDB cthdb)
         {
-            cthdnsql.xoacthdn(cthdn);
+            cthdbsql.xoacthdb(cthdb);
         }
         //load hóa đơn
         public void loadmahd(ComboBox cbhd)
         {
-            cthdnsql.loadmahdn(cbhd);
+            cthdbsql.loadmahd(cbhd);
         }
         //load hóa đơn
         public void loadmasp(ComboBox cbsp)
         {
-            cthdnsql.loadmasp(cbsp);
+            cthdbsql.loadmasp(cbsp);
         }
         public string loadtensp(string Tensp, string Masp)
         {
-            Tensp = cthdnsql.Loadtenhang(Tensp, Masp);
+            Tensp = cthdbsql.Loadtenhang(Tensp, Masp);
             return Tensp;
+        }
+
+        public string loaddg(string dg, string Masp)
+        {
+            dg = cthdbsql.Loaddgb(dg, Masp);
+            return dg;
         }
     }
 }
