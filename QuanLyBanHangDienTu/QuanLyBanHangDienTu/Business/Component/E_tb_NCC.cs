@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using QuanLyBanHangDienTu.Business.EntitiesClass;
+using QuanLyBanHangDienTu.DataAccess;
+using System.Windows.Forms;
 
 
 namespace QuanLyBanHangDienTu.Business.Component
